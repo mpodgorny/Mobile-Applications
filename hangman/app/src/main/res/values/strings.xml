@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hangman 1.0</string>
+    <string-array
+            name="words">
+        <item>rower</item>
+        <item>kiwi</item>
+        <item>zeszyt</item>
+        <item>neandertalczyk</item>
+        <item>domek</item>
+        <item>akademia</item>
+
+    </string-array>
+</resources>
