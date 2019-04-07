@@ -18,6 +18,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.text.SimpleDateFormat
 
 
 class MainActivity : AppCompatActivity() {
@@ -27,9 +28,6 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        addTestTasks()
-
         adapter = taskAdapter(this, tasks)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -75,23 +73,28 @@ class MainActivity : AppCompatActivity() {
 
         val date  = dialogLayout.findViewById<TextView>(R.id.date)
         val current = LocalDate.now()
-        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
         val formatted = current.format(formatter)
         date.text="$formatted"
         date.setOnClickListener{
             val c = Calendar.getInstance()
-            val year = c.get(Calendar.YEAR)
-            val month = c.get(Calendar.MONTH)
-            val day = c.get(Calendar.DAY_OF_MONTH)
+            var year = c.get(Calendar.YEAR)
+            var month = c.get(Calendar.MONTH)
+            var day = c.get(Calendar.DAY_OF_MONTH)
             val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                // Display Selected date in Toast
-                date.text="$dayOfMonth.$monthOfYear.$year"
+            var tempDate="$dayOfMonth-$monthOfYear-$year"
+            if(dayOfMonth<10 && monthOfYear<10){
+                tempDate="0$dayOfMonth-0$monthOfYear-$year"
+            }else if(dayOfMonth<10){
+                tempDate="0$dayOfMonth-$monthOfYear-$year"
+            }else if(monthOfYear<10){
+                tempDate="$dayOfMonth-0$monthOfYear-$year"
+            }
+            date.text=tempDate
             }, year, month, day)
             dpd.show()
 
         }
-
-
 
         val image = dialogLayout.findViewById<ImageView>(R.id.newphoto)
         var imageChosen = "home"
@@ -125,7 +128,7 @@ class MainActivity : AppCompatActivity() {
         var task = HashMap<String, String>()
         builder.setView(dialogLayout)
 
-        builder.setPositiveButton("OK") {
+        builder.setPositiveButton("Add") {
                 dialogInterface, i ->
             task.put("title", title.text.toString())
             task.put("priority", rate.getRating().toString())
@@ -149,6 +152,8 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.priority -> {
                 var mapCompare = MapComparator("priority")
+
+
                 Collections.sort(tasks, mapCompare)
                 adapter.notifyDataSetChanged()
                 return true
@@ -165,58 +170,46 @@ class MainActivity : AppCompatActivity() {
                 adapter.notifyDataSetChanged()
                 return true
             }
+            R.id.random -> {
+                addRandomTask()
+            }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    fun addTestTasks(){
+    fun addRandomTask(){
+        var charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+        val ALPHANUMERIC_REGEX = "[a-zA-Z0-9]+"
+        var days = listOf("01", "02", "03", "04", "05", "06", "07", "08", "09")
+        var months = listOf("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")
+        var pictures = listOf("home", "university", "programming", "interpersonal")
+        val randomTitle = (1..15)
+            .map { i -> kotlin.random.Random.nextInt(0, charPool.size) }
+            .map(charPool::get)
+            .joinToString("")
+
+        val randomText = (1..100)
+            .map { i -> kotlin.random.Random.nextInt(0, charPool.size) }
+            .map(charPool::get)
+            .joinToString("")
+
+        val year = kotlin.random.Random.nextInt(2017,2019)
+        val month = months[kotlin.random.Random.nextInt(0,11)]
+        val idx = kotlin.random.Random.nextInt(1, 30)
+        val pic = pictures[kotlin.random.Random.nextInt(0, 3)]
+        if(idx<10){
+            val idx=days[idx]
+        }
+
         var task = HashMap<String, String>()
-        task.put("title", "Zadanie testowe")
-        task.put("priority", "4")
-        task.put("description", "Bardzo dlugie zadanie Bardzo dlugie zadanie Bardzo dlugie zadanie Bardzo dlugie zadanie Bardzo dlugie zadanie ")
-        task.put("date", "22.4.2019")
-        task.put("image", "home")
+        task.put("title", randomTitle)
+        task.put("description", randomText)
+        task.put("date", "$idx-$month-$year")
+        task.put("image", pic)
+        task.put("priority", kotlin.random.Random.nextInt(0,5).toString())
         tasks.add(task)
-        var task2 = HashMap<String, String>()
-        task2.put("title", "Zadanie testowe numer 2")
-        task2.put("priority", "1")
-        task2.put("description", "Bardzo dlugie zadanie Bardzo dlugie zadanie Bardzo dlugie zadanie Bardzo dlugie zadanie Bardzo dlugie zadanie ")
-        task2.put("date", "21.4.2019")
-        task2.put("image", "university")
-        tasks.add(task2)
-
-        var task3 = HashMap<String, String>()
-        task3.put("title", "Zadanie testowe numer 3")
-        task3.put("priority", "5")
-        task3.put("description", "Bardzo dlugie zadanie Bardzo dlugie zadanie Bardzo dlugie zadanie Bardzo dlugie zadanie Bardzo dlugie zadanie ")
-        task3.put("date", "29.4.2019")
-        task3.put("image", "home")
-        tasks.add(task3)
-
-        var task4 = HashMap<String, String>()
-        task4.put("title", "Zadanie testowe numer 4")
-        task4.put("priority", "4")
-        task4.put("description", "Bardzo dlugie zadanie Bardzo dlugie zadanie Bardzo dlugie zadanie Bardzo dlugie zadanie Bardzo dlugie zadanie ")
-        task4.put("date", "23.4.2019")
-        task4.put("image", "interpersonal")
-        tasks.add(task4)
-
-        var task5 = HashMap<String, String>()
-        task5.put("title", "Zadanie testowe numer 5")
-        task5.put("priority", "3")
-        task5.put("description", "Bardzo dlugie zadanie Bardzo dlugie zadanie Bardzo dlugie zadanie Bardzo dlugie zadanie Bardzo dlugie zadanie ")
-        task5.put("date", "25.7.2019")
-        task5.put("image", "programming")
-        tasks.add(task5)
-
-        var task6 = HashMap<String, String>()
-        task6.put("title", "Zadanie testowe numer 6")
-        task6.put("priority", "2")
-        task6.put("description", "Bardzo dlugie zadanie Bardzo dlugie zadanie Bardzo dlugie zadanie Bardzo dlugie zadanie Bardzo dlugie zadanie ")
-        task6.put("date", "5.5.2019")
-        task6.put("image", "university")
-        tasks.add(task6)
-
+        adapter.notifyDataSetChanged()
     }
+
 
 }

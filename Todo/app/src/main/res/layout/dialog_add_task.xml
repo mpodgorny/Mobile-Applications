@@ -19,7 +19,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/textView5"
                 app:layout_constraintTop_toTopOf="@+id/textView5" app:layout_constraintVertical_bias="0.75"
                 android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.19"/>
+                app:layout_constraintHorizontal_bias="0.6"/>
         <TextView
                 android:text="Priority:"
                 android:layout_width="wrap_content"
@@ -65,12 +65,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
-                android:text="Name"
                 android:ems="10"
                 android:id="@+id/newtitle"
                 android:textSize="12sp"
                 app:layout_constraintTop_toTopOf="@+id/textView2"
-                app:layout_constraintEnd_toEndOf="@+id/newrating"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView2" android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp" app:layout_constraintHorizontal_bias="0.804"/>
         <RatingBar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -80,15 +81,18 @@
                 app:layout_constraintTop_toTopOf="@+id/textView8"
                 app:layout_constraintBottom_toBottomOf="@+id/textView8"
                 app:layout_constraintVertical_bias="1.0"
-                android:isIndicator="false" app:layout_constraintEnd_toEndOf="@+id/date"/>
+                android:isIndicator="false" android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView8" android:layout_marginStart="8dp"
+                app:layout_constraintHorizontal_bias="0.636"/>
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" app:srcCompat="@drawable/home"
                 android:id="@+id/newphoto"
                 app:layout_constraintBottom_toBottomOf="@+id/textView7"
-                app:layout_constraintTop_toTopOf="@+id/textView7" app:layout_constraintVertical_bias="0.6"
-                app:layout_constraintEnd_toEndOf="@+id/newdescription"
-        />
+                app:layout_constraintTop_toTopOf="@+id/textView7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView7" android:layout_marginStart="8dp"
+                app:layout_constraintHorizontal_bias="0.753" app:layout_constraintVertical_bias="0.468"/>
         <TextView
                 android:layout_width="188dp"
                 android:layout_height="30dp"
@@ -97,8 +101,8 @@
                 app:layout_constraintTop_toTopOf="@+id/textView6"
                 app:layout_constraintBottom_toBottomOf="@+id/textView6"
                 app:layout_constraintStart_toEndOf="@+id/textView6" android:layout_marginStart="8dp"
-                app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-                app:layout_constraintHorizontal_bias="0.152" app:layout_constraintVertical_bias="0.307"
-                android:textSize="18sp" android:text="Chose date"/>
+                app:layout_constraintVertical_bias="0.0"
+                android:textSize="18sp" android:text="Chose date" android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.466"/>
     </android.support.constraint.ConstraintLayout>
 </LinearLayout>

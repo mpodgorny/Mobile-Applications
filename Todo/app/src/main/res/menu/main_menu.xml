@@ -6,4 +6,5 @@
     <item android:title="Sort by deadline" android:id="@+id/deadline"/>
     <item android:title="Sort by priority" android:id="@+id/priority"/>
     <item android:title="Sort by photo" android:id="@+id/photo"/>
+    <item android:title="Add Random Task" android:id="@+id/random"/>
 </menu>
