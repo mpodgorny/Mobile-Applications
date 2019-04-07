@@ -48,7 +48,20 @@ class taskAdapter (private val context: Context,
             date.setText(task[position].getValue("date").toString())
             description.setText(task[position].getValue("description").toString())
 
+        when(task[position].getValue("image").toString()){
+            "home" ->
+                image.setImageResource(R.drawable.home)
+            "university" ->
+                image.setImageResource(R.drawable.company)
+            "programming" ->
+                image.setImageResource(R.drawable.laptop)
+            else ->
+                image.setImageResource(R.drawable.customer)
+        }
+
 
         return rowView
     }
+
+
 }
