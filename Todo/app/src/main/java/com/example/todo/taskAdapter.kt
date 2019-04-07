@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.task_layout.view.*
 import org.w3c.dom.Text
 
 class taskAdapter (private val context: Context,
-                    private val task: ArrayList<HashMap<String, Any>>) : BaseAdapter() {
+                    private val task: ArrayList<HashMap<String, String>>) : BaseAdapter() {
 
     private val inflater: LayoutInflater
             = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater

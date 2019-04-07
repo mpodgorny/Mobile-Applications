@@ -80,19 +80,7 @@
                 app:layout_constraintTop_toTopOf="@+id/textView8"
                 app:layout_constraintBottom_toBottomOf="@+id/textView8"
                 app:layout_constraintVertical_bias="1.0"
-                app:layout_constraintEnd_toEndOf="@+id/newdate" android:isIndicator="false"/>
-        <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="date"
-                android:ems="10"
-                android:id="@+id/newdate"
-                app:layout_constraintStart_toEndOf="@+id/textView6" android:layout_marginStart="8dp"
-                android:textSize="14sp"
-                app:layout_constraintTop_toTopOf="@+id/textView6"
-                app:layout_constraintBottom_toBottomOf="@+id/textView6"
-                app:layout_constraintVertical_bias="1.0"
-                app:layout_constraintEnd_toEndOf="@+id/newphoto" app:layout_constraintHorizontal_bias="1.0"/>
+                android:isIndicator="false" app:layout_constraintEnd_toEndOf="@+id/date"/>
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" app:srcCompat="@drawable/home"
@@ -101,5 +89,16 @@
                 app:layout_constraintTop_toTopOf="@+id/textView7" app:layout_constraintVertical_bias="0.6"
                 app:layout_constraintEnd_toEndOf="@+id/newdescription"
         />
+        <TextView
+                android:layout_width="188dp"
+                android:layout_height="30dp"
+                android:id="@+id/date"
+                android:textAppearance="@style/TextAppearance.AppCompat.Button" android:textAlignment="center"
+                app:layout_constraintTop_toTopOf="@+id/textView6"
+                app:layout_constraintBottom_toBottomOf="@+id/textView6"
+                app:layout_constraintStart_toEndOf="@+id/textView6" android:layout_marginStart="8dp"
+                app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+                app:layout_constraintHorizontal_bias="0.152" app:layout_constraintVertical_bias="0.307"
+                android:textSize="18sp" android:text="Chose date"/>
     </android.support.constraint.ConstraintLayout>
 </LinearLayout>
