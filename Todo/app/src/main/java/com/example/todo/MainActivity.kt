@@ -19,6 +19,9 @@ import android.view.MenuItem
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.text.SimpleDateFormat
+import android.os.Parcelable
+
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -26,19 +29,53 @@ class MainActivity : AppCompatActivity() {
     private lateinit var listView : ListView
     private lateinit var adapter : taskAdapter
 
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.putSerializable("tasks", tasks)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        if (savedInstanceState != null) {
+            tasks = savedInstanceState.getSerializable("tasks") as ArrayList<HashMap<String, String>>
+        }
+
+        adapter = taskAdapter(this, tasks)
+        setContentView(R.layout.activity_main)
+
+        listView = findViewById<ListView>(R.id.listview)
+        listView.adapter = adapter
+
+        listView.onItemLongClickListener = AdapterView.OnItemLongClickListener { arg0, arg1, pos, arg3 ->
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Remove task?")
+            builder.setPositiveButton("Remove") { dialogInterface, i ->
+                tasks.removeAt(pos)
+                adapter.notifyDataSetChanged()
+            }
+            builder.setNegativeButton("Cancel") { dialogInterface, i ->
+                Toast.makeText(applicationContext,"Canceled.",Toast.LENGTH_SHORT).show()
+            }
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+            true
+        }
+    }
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         adapter = taskAdapter(this, tasks)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         listView = findViewById<ListView>(R.id.listview)
         listView.adapter = adapter
 
         listView.onItemLongClickListener = AdapterView.OnItemLongClickListener { arg0, arg1, pos, arg3 ->
-
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Remove task?")
-
             builder.setPositiveButton("Remove") { dialogInterface, i ->
                 tasks.removeAt(pos)
                 adapter.notifyDataSetChanged()
@@ -52,13 +89,15 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.main_menu, menu)
-
-
         return super.onCreateOptionsMenu(menu)
     }
+
+
     fun onAdd (View: View){
 
         val builder = AlertDialog.Builder(this)
@@ -93,9 +132,7 @@ class MainActivity : AppCompatActivity() {
             date.text=tempDate
             }, year, month, day)
             dpd.show()
-
         }
-
         val image = dialogLayout.findViewById<ImageView>(R.id.newphoto)
         var imageChosen = "home"
         image.setOnClickListener {
@@ -124,7 +161,6 @@ class MainActivity : AppCompatActivity() {
             })
             popupMenu.show()
         }
-
         var task = HashMap<String, String>()
         builder.setView(dialogLayout)
 
@@ -177,10 +213,9 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+
     fun addRandomTask(){
         var charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
-        val ALPHANUMERIC_REGEX = "[a-zA-Z0-9]+"
-        var days = listOf("01", "02", "03", "04", "05", "06", "07", "08", "09")
         var months = listOf("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")
         var pictures = listOf("home", "university", "programming", "interpersonal")
         val randomTitle = (1..15)
@@ -193,18 +228,18 @@ class MainActivity : AppCompatActivity() {
             .map(charPool::get)
             .joinToString("")
 
-        val year = kotlin.random.Random.nextInt(2017,2019)
-        val month = months[kotlin.random.Random.nextInt(0,11)]
-        val idx = kotlin.random.Random.nextInt(1, 30)
-        val pic = pictures[kotlin.random.Random.nextInt(0, 3)]
-        if(idx<10){
-            val idx=days[idx]
-        }
-
         var task = HashMap<String, String>()
+        val year = kotlin.random.Random.nextInt(2019,2021)
+        val month = months[kotlin.random.Random.nextInt(0,12)]
+        var idx = kotlin.random.Random.nextInt(1, 31)
+        val pic = pictures[kotlin.random.Random.nextInt(0, 4)]
+        if(idx<10){
+            task.put("date", "0$idx-$month-$year")
+        }else{
+            task.put("date", "$idx-$month-$year")
+        }
         task.put("title", randomTitle)
         task.put("description", randomText)
-        task.put("date", "$idx-$month-$year")
         task.put("image", pic)
         task.put("priority", kotlin.random.Random.nextInt(0,5).toString())
         tasks.add(task)
