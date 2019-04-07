@@ -17,22 +17,18 @@ class taskAdapter (private val context: Context,
     private val inflater: LayoutInflater
             = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-    //1
     override fun getCount(): Int {
         return task.size
     }
 
-    //2
     override fun getItem(position: Int): Any {
         return task[position]
     }
 
-    //3
     override fun getItemId(position: Int): Long {
         return position.toLong()
     }
 
-    //4
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 
         // Get view for row item
@@ -58,7 +54,6 @@ class taskAdapter (private val context: Context,
             else ->
                 image.setImageResource(R.drawable.customer)
         }
-
 
         return rowView
     }

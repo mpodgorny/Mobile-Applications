@@ -1,28 +1,18 @@
 package com.example.todo
 
 import android.app.DatePickerDialog
-import android.content.Context
-import android.content.DialogInterface
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
 import android.view.Menu
 import android.view.View
 import android.widget.*
 import java.util.*
-import kotlinx.android.synthetic.main.dialog_add_task.*
 import kotlin.collections.HashMap
 import android.widget.AdapterView
-import android.view.MenuInflater
 import android.view.MenuItem
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.text.SimpleDateFormat
-import android.os.Parcelable
-
-
-
 
 class MainActivity : AppCompatActivity() {
     var tasks = ArrayList<HashMap<String, String>>()
@@ -39,64 +29,21 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState != null) {
             tasks = savedInstanceState.getSerializable("tasks") as ArrayList<HashMap<String, String>>
         }
-
-        adapter = taskAdapter(this, tasks)
-        setContentView(R.layout.activity_main)
-
-        listView = findViewById<ListView>(R.id.listview)
-        listView.adapter = adapter
-
-        listView.onItemLongClickListener = AdapterView.OnItemLongClickListener { arg0, arg1, pos, arg3 ->
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("Remove task?")
-            builder.setPositiveButton("Remove") { dialogInterface, i ->
-                tasks.removeAt(pos)
-                adapter.notifyDataSetChanged()
-            }
-            builder.setNegativeButton("Cancel") { dialogInterface, i ->
-                Toast.makeText(applicationContext,"Canceled.",Toast.LENGTH_SHORT).show()
-            }
-            val dialog: AlertDialog = builder.create()
-            dialog.show()
-            true
-        }
+        createAdapter()
     }
-
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        adapter = taskAdapter(this, tasks)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        listView = findViewById<ListView>(R.id.listview)
-        listView.adapter = adapter
-
-        listView.onItemLongClickListener = AdapterView.OnItemLongClickListener { arg0, arg1, pos, arg3 ->
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("Remove task?")
-            builder.setPositiveButton("Remove") { dialogInterface, i ->
-                tasks.removeAt(pos)
-                adapter.notifyDataSetChanged()
-            }
-            builder.setNegativeButton("Cancel") { dialogInterface, i ->
-                Toast.makeText(applicationContext,"Canceled.",Toast.LENGTH_SHORT).show()
-            }
-            val dialog: AlertDialog = builder.create()
-            dialog.show()
-            true
-        }
+        createAdapter()
 
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.main_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
-
 
     fun onAdd (View: View){
 
@@ -246,5 +193,26 @@ class MainActivity : AppCompatActivity() {
         adapter.notifyDataSetChanged()
     }
 
+    fun createAdapter(){
 
+        adapter = taskAdapter(this, tasks)
+
+        listView = findViewById<ListView>(R.id.listview)
+        listView.adapter = adapter
+
+        listView.onItemLongClickListener = AdapterView.OnItemLongClickListener { arg0, arg1, pos, arg3 ->
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Remove task?")
+            builder.setPositiveButton("Remove") { dialogInterface, i ->
+                tasks.removeAt(pos)
+                adapter.notifyDataSetChanged()
+            }
+            builder.setNegativeButton("Cancel") { dialogInterface, i ->
+                Toast.makeText(applicationContext,"Canceled.",Toast.LENGTH_SHORT).show()
+            }
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+            true
+        }
+    }
 }
